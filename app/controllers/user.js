@@ -13,11 +13,6 @@ export const signup = async (req, res) => {
     where: { email: data.email },
   });
 
-  if (existingUser) {
-    res.status(400).send("User already exists");
-    return;
-  }
-
   try {
     const user = await prisma.user.create({
       data: {
@@ -27,7 +22,7 @@ export const signup = async (req, res) => {
         lastName: data.lastName,
       },
     });
-    res.send(user);
+    res.status(201).send(user);
   } catch (error) {
     res.status(500).send("Error during signup: " + error.message);
   }
