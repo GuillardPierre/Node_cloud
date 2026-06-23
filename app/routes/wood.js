@@ -3,5 +3,5 @@ const router = express.Router();
 import * as woodController from "../controllers/wood";
 
 router.get("/", woodController.readAll);
-
+router.get("/:type", woodController.readByHarness);
 export default router;
