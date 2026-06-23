@@ -1,6 +1,10 @@
 import { prisma } from "../../app.js";
 
 export const readAll = async (req, res) => {
-  const woods = await prisma.wood.findMany();
-  res.send(woods);
+  try {
+    const woods = await prisma.wood.findMany();
+    res.send(woods);
+  } catch (error) {
+    res.status(500).send("Error fetching woods: " + error.message);
+  }
 };
