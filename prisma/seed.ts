@@ -39,24 +39,29 @@ const woods = [
   },
 ];
 
-async function main() {
-  await prisma.wood.createMany({
-    data: woods,
-    skipDuplicates: true,
-  });
-}
-
 const user = {
   email: "pierre@mail.com",
   password: "password",
   firstName: "Pierre",
   lastName: "Guillard",
 };
-
 async function createUser() {
-  await prisma.user.create({
-    data: user,
+  await prisma.user.createMany({
+    data: [user],
+    skipDuplicates: true,
   });
+}
+
+async function createWoods() {
+  await prisma.wood.createMany({
+    data: woods,
+    skipDuplicates: true,
+  });
+}
+
+async function main() {
+  await createUser();
+  await createWoods();
 }
 
 main()
