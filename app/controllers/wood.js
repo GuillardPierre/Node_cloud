@@ -1,3 +1,3 @@
-export const woodList = (req, res) => {
+export const readlAll = (req, res) => {
   res.send("List of woods");
 };
