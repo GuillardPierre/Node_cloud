@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { prisma } from "../app.js";
+import bcrypt from "bcrypt";
 
 const woods = [
   {
@@ -41,7 +42,7 @@ const woods = [
 
 const user = {
   email: "pierre@mail.com",
-  password: "password",
+  password: await bcrypt.hash("password", 10),
   firstName: "Pierre",
   lastName: "Guillard",
 };
