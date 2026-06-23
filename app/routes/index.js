@@ -3,10 +3,6 @@ import userRoutes from "./user.js";
 import woodRoutes from "./wood.js";
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
 router.use("/auth", userRoutes);
 router.use("/wood", woodRoutes);
 
