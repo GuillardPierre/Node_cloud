@@ -46,6 +46,19 @@ async function main() {
   });
 }
 
+const user = {
+  email: "pierre@mail.com",
+  password: "password",
+  firstName: "Pierre",
+  lastName: "Guillard",
+};
+
+async function createUser() {
+  await prisma.user.create({
+    data: user,
+  });
+}
+
 main()
   .catch((error) => {
     console.error(error);
