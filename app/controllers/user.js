@@ -52,11 +52,9 @@ export const login = async (req, res) => {
       return;
     }
 
-    const token = jwt.sign(
-      { userId: user.id, email: user.email },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" },
-    );
+    const token = await jwt.sign({ user: user }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
 
     res.status(200).json({ token });
   } catch (error) {
