@@ -5,6 +5,7 @@ import router from "./app/routes/index.js";
 const app = express();
 app.use(express.json());
 app.use("/api", router);
+app.use("/uploads", express.static("uploads"));
 
 export default app;
 
