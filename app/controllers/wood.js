@@ -34,21 +34,20 @@ export const create = async (req, res) => {
       res.status(400).send("Name, type, and hardness are required");
       return;
     }
+    if (image) {
+      pathname = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+    }
 
     const wood = await prisma.wood.create({
       data: {
         name,
         type,
         hardness,
-        image,
+        image: pathname,
       },
     });
 
-    if (image) {
-      pathname = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
-    }
-
-    const response = pathname ? { ...wood, pathname } : wood;
+    const response = wood;
     res.status(201).send(response);
   } catch (error) {
     res.status(500).send("Error creating wood: " + error.message);
