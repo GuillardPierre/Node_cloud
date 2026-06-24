@@ -30,7 +30,6 @@ export const create = async (req, res) => {
     const image = req.file
       ? `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`
       : null;
-    let pathname = null;
 
     if (!name || !type || !hardness) {
       res.status(400).send("Name, type, and hardness are required");
