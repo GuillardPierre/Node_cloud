@@ -1,6 +1,9 @@
 import { prisma } from "../../app.js";
+import { promisify } from "node:util";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+
+const signAsync = promisify(jwt.sign);
 
 export const signup = async (req, res) => {
   const data = req.body;
@@ -52,8 +55,8 @@ export const login = async (req, res) => {
       return;
     }
 
-    const token = await jwt.sign({ user_id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+    const token = await signAsync({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: Number(process.env.JWT_EXPIRATION),
     });
 
     res.status(200).json({ token: token, user: user });

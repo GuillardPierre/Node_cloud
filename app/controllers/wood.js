@@ -9,7 +9,7 @@ export const readAll = async (req, res) => {
   }
 };
 
-export const readByHarness = async (req, res) => {
+export const readByHardness = async (req, res) => {
   try {
     const woods = await prisma.wood.findMany({
       where: {
