@@ -26,7 +26,7 @@
         "properties": {
           "rel": {
             "type": "string",
-            "enum": ["self", "sameHardness"],
+            "enum": ["self", "same_hardness"],
             "example": "self"
           },
           "method": {
@@ -281,30 +281,25 @@
           }
         ],
         "requestBody": {
+          "description": "Envoyer un champ 'data' contenant l'objet JSON stringifié + un champ 'image' (multipart/form-data), ou envoyer application/json sans image.",
           "required": true,
           "content": {
             "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": { "type": "string", "example": "Épicéa" },
-                  "type": {
+                  "data": {
                     "type": "string",
-                    "enum": ["softwood", "hardwood"],
-                    "example": "softwood"
+                    "description": "Chaîne JSON contenant les champs {\"name\":..., \"type\":..., \"hardness\":...}",
+                    "example": "{\"name\":\"Épicéa\",\"type\":\"softwood\",\"hardness\":\"tender\"}"
                   },
-                  "hardness": {
-                    "type": "string",
-                    "enum": ["tender", "medium_hard", "hard"],
-                    "example": "tender"
-                  },
-                  "file": {
+                  "image": {
                     "type": "string",
                     "format": "binary",
-                    "description": "Fichier image"
+                    "description": "Fichier image (champ 'image')"
                   }
                 },
-                "required": ["name", "type", "hardness"]
+                "required": ["data"]
               }
             },
             "application/json": {
