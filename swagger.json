@@ -130,7 +130,27 @@
         "properties": {
           "error": {
             "type": "string",
-            "example": "Missing token."
+            "example": "Une erreur est survenue."
+          }
+        },
+        "required": ["error"]
+      },
+      "BadRequestResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Les champs name, type et hardness sont requis."
+          }
+        },
+        "required": ["error"]
+      },
+      "UnauthorizedResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Jeton JWT manquant, expiré ou invalide."
           }
         },
         "required": ["error"]
@@ -263,25 +283,6 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": { "type": "string", "example": "Épicéa" },
-                  "type": {
-                    "type": "string",
-                    "enum": ["softwood", "hardwood"],
-                    "example": "softwood"
-                  },
-                  "hardness": {
-                    "type": "string",
-                    "enum": ["tender", "medium_hard", "hard"],
-                    "example": "tender"
-                  }
-                },
-                "required": ["name", "type", "hardness"]
-              }
-            },
             "multipart/form-data": {
               "schema": {
                 "type": "object",
@@ -301,6 +302,25 @@
                     "type": "string",
                     "format": "binary",
                     "description": "Fichier image"
+                  }
+                },
+                "required": ["name", "type", "hardness"]
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "example": "Épicéa" },
+                  "type": {
+                    "type": "string",
+                    "enum": ["softwood", "hardwood"],
+                    "example": "softwood"
+                  },
+                  "hardness": {
+                    "type": "string",
+                    "enum": ["tender", "medium_hard", "hard"],
+                    "example": "tender"
                   }
                 },
                 "required": ["name", "type", "hardness"]
@@ -329,7 +349,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/BadRequestResponse"
                 }
               }
             }
