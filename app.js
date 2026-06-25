@@ -8,7 +8,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://yourapp.com",
+    origin: process.env.FRONTEND_URL,
   }),
 );
 app.use(express.json());
