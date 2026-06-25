@@ -101,22 +101,27 @@
           {
             "type": "object",
             "properties": {
-              "links": {
-                "type": "array",
-                "items": {
+              "_links": {
+                "type": "object",
+                "additionalProperties": {
                   "$ref": "#/components/schemas/HateoasLink"
                 },
                 "description": "Liens hypertextes dynamiques de navigation HATEOAS",
-                "example": [
-                  {
+                "example": {
+                  "self": {
                     "rel": "self",
                     "method": "GET",
                     "href": "http://localhost:5000/api/woods/1"
+                  },
+                  "same_hardness": {
+                    "rel": "same_hardness",
+                    "method": "GET",
+                    "href": "http://localhost:5000/api/woods/tender"
                   }
-                ]
+                }
               }
             },
-            "required": ["links"]
+            "required": ["_links"]
           }
         ]
       },
@@ -224,6 +229,107 @@
                   "items": {
                     "$ref": "#/components/schemas/WoodWithHateoas"
                   }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Accès refusé. Jeton JWT manquant, expiré ou corrompu dans l'en-tête Authorization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Créer une nouvelle essence de bois",
+        "tags": ["Woods"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Jeton d'authentification JWT au format : Bearer <token>",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "example": "Épicéa" },
+                  "type": {
+                    "type": "string",
+                    "enum": ["softwood", "hardwood"],
+                    "example": "softwood"
+                  },
+                  "hardness": {
+                    "type": "string",
+                    "enum": ["tender", "medium_hard", "hard"],
+                    "example": "tender"
+                  }
+                },
+                "required": ["name", "type", "hardness"]
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "example": "Épicéa" },
+                  "type": {
+                    "type": "string",
+                    "enum": ["softwood", "hardwood"],
+                    "example": "softwood"
+                  },
+                  "hardness": {
+                    "type": "string",
+                    "enum": ["tender", "medium_hard", "hard"],
+                    "example": "tender"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Fichier image"
+                  }
+                },
+                "required": ["name", "type", "hardness"]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Bois créé avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WoodWithHateoas"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requête invalide. Les champs obligatoires sont manquants ou invalides",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
