@@ -2,7 +2,15 @@ import { PrismaClient } from "@prisma/client";
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import express from "express";
 import router from "./app/routes/index.js";
+import cors from "cors";
+
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://yourapp.com",
+  }),
+);
 app.use(express.json());
 app.use("/api", router);
 app.use("/uploads", express.static("uploads"));
