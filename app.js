@@ -3,6 +3,8 @@ import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import express from "express";
 import router from "./app/routes/index.js";
 import cors from "cors";
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./swagger.json";
 
 const app = express();
 
@@ -12,6 +14,7 @@ app.use(
   }),
 );
 app.use(express.json());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api", router);
 app.use("/uploads", express.static("uploads"));
 
